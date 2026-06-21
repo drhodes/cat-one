@@ -19,3 +19,7 @@
 {"created_at":"2026-06-21T16:21:13.984931+00:00","depends_on":"spec.course.SectionRomanExamples","ref":"spec.course.ExercisePosetAsCategory","snapshot_id":"PENDING","type":"dependency"}
 {"created_at":"2026-06-21T16:21:14.137897+00:00","depends_on":"spec.course.SectionRomanExamples","ref":"spec.course.ExerciseMonoidAsCategory","snapshot_id":"PENDING","type":"dependency"}
 {"created_at":"2026-06-21T16:21:14.280279+00:00","depends_on":"spec.course.SectionRomanExamples","ref":"spec.course.ExerciseMatrixCategory","snapshot_id":"PENDING","type":"dependency"}
+{"created_at":"2026-06-21T16:32:25.050619+00:00","depends_on":"spec.exercise_superspec.TabbedExercise","ref":"spec.course.ExerciseGroupInverseUnique","snapshot_id":"PENDING","type":"dependency"}
+{"created_at":"2026-06-21T16:32:25.211671+00:00","depends_on":"spec.exercise_superspec.TabbedExercise","ref":"spec.course.ExercisePosetAsCategory","snapshot_id":"PENDING","type":"dependency"}
+{"created_at":"2026-06-21T16:32:25.382094+00:00","depends_on":"spec.exercise_superspec.TabbedExercise","ref":"spec.course.ExerciseMonoidAsCategory","snapshot_id":"PENDING","type":"dependency"}
+{"created_at":"2026-06-21T16:32:25.527205+00:00","depends_on":"spec.exercise_superspec.TabbedExercise","ref":"spec.course.ExerciseMatrixCategory","snapshot_id":"PENDING","type":"dependency"}

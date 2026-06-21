@@ -3,6 +3,7 @@ Course website specifications
 '''
 
 from .err import Feat, Req
+from .exercise_superspec import TabbedExercise
 
 class CourseSite(Feat):
     """
@@ -23,25 +24,124 @@ class SectionRomanExamples(Req):
     Section 1.5 must present Lean 4 formalization exercises for the examples in Steven Roman's lecture.
     """
 
-class ExerciseGroupInverseUnique(Req):
+class ExerciseGroupInverseUnique(TabbedExercise):
     """
-    Must provide a Lean 4 exercise proving that inverses in a group are unique using a calc block.
+    Lean 4 exercise proving that inverses in a group are unique.
+    Uses a calc block to chain equalities via left/right cancellation.
+    Both tabs required: sorry stub and a complete calc proof.
     """
+    title = "Group Inverse Uniqueness"
+    section = "1.5"
+    difficulty = "beginner"
+    sorry_code = (
+        "import Mathlib\n"
+        "theorem inv_unique {G : Type*} [Group G] (a b : G)\n"
+        "    (hl : a * b = 1) : b = a⁻¹ := by\n"
+        "  sorry\n"
+    )
+    solution_code = (
+        "import Mathlib\n"
+        "theorem inv_unique {G : Type*} [Group G] (a b : G)\n"
+        "    (hl : a * b = 1) : b = a⁻¹ := by\n"
+        "  calc b = 1 * b         := by ring\n"
+        "       _ = (a⁻¹ * a) * b := by simp\n"
+        "       _ = a⁻¹ * (a * b) := by ring\n"
+        "       _ = a⁻¹ * 1       := by rw [hl]\n"
+        "       _ = a⁻¹            := by ring\n"
+    )
 
-class ExercisePosetAsCategory(Req):
-    """
-    Must provide a Lean 4 exercise showing how a preorder forms a category.
-    """
 
-class ExerciseMonoidAsCategory(Req):
+class ExercisePosetAsCategory(TabbedExercise):
     """
-    Must provide a Lean 4 exercise defining a monoid as a single-object category.
+    Lean 4 exercise showing that any preorder (Preorder α) gives rise to a
+    category whose objects are elements of α and whose hom-sets are
+    Props (at most one morphism between any two objects).
+    Both tabs required: sorry stub and a complete Category instance.
     """
+    title = "Poset as a Category"
+    section = "1.5"
+    difficulty = "beginner"
+    sorry_code = (
+        "import Mathlib\n"
+        "universe u\n"
+        "variable {α : Type u} [Preorder α]\n"
+        "-- Provide the Category instance for a preorder.\n"
+        "instance posetCategory : CategoryTheory.SmallCategory α where\n"
+        "  Hom a b := PLift (a ≤ b)\n"
+        "  id a    := sorry\n"
+        "  comp f g := sorry\n"
+    )
+    solution_code = (
+        "import Mathlib\n"
+        "universe u\n"
+        "variable {α : Type u} [Preorder α]\n"
+        "instance posetCategory : CategoryTheory.SmallCategory α where\n"
+        "  Hom a b   := PLift (a ≤ b)\n"
+        "  id a      := ⟨le_refl a⟩\n"
+        "  comp f g  := ⟨le_trans f.down g.down⟩\n"
+    )
 
-class ExerciseMatrixCategory(Req):
+
+class ExerciseMonoidAsCategory(TabbedExercise):
     """
-    Must provide a Lean 4 exercise defining the category of matrices over a comm ring.
+    Lean 4 exercise defining a monoid as a single-object category:
+    objects = Unit, morphisms = the monoid elements, composition = mul.
+    Both tabs required: sorry stub and a complete Category instance.
     """
+    title = "Monoid as a Single-Object Category"
+    section = "1.5"
+    difficulty = "intermediate"
+    sorry_code = (
+        "import Mathlib\n"
+        "variable (M : Type*) [Monoid M]\n"
+        "-- Define the single-object category whose morphisms are M.\n"
+        "instance monoidCategory : CategoryTheory.Category Unit where\n"
+        "  Hom _ _ := M\n"
+        "  id  _   := sorry\n"
+        "  comp f g := sorry\n"
+    )
+    solution_code = (
+        "import Mathlib\n"
+        "variable (M : Type*) [Monoid M]\n"
+        "instance monoidCategory : CategoryTheory.Category Unit where\n"
+        "  Hom _ _  := M\n"
+        "  id  _    := (1 : M)\n"
+        "  comp f g := f * g\n"
+        "  id_comp  := one_mul\n"
+        "  comp_id  := mul_one\n"
+        "  assoc    := mul_assoc\n"
+    )
+
+
+class ExerciseMatrixCategory(TabbedExercise):
+    """
+    Lean 4 exercise defining the category of matrices over a commutative ring:
+    objects = ℕ (dimensions), morphisms n ⟶ m = Matrix (Fin m) (Fin n) R,
+    composition = matrix multiplication.
+    Both tabs required: sorry stub and a complete Category instance.
+    """
+    title = "Category of Matrices"
+    section = "1.5"
+    difficulty = "intermediate"
+    sorry_code = (
+        "import Mathlib\n"
+        "variable (R : Type*) [CommRing R]\n"
+        "instance matrixCategory : CategoryTheory.Category ℕ where\n"
+        "  Hom n m  := Matrix (Fin m) (Fin n) R\n"
+        "  id  n    := sorry\n"
+        "  comp f g := sorry\n"
+    )
+    solution_code = (
+        "import Mathlib\n"
+        "variable (R : Type*) [CommRing R]\n"
+        "instance matrixCategory : CategoryTheory.Category ℕ where\n"
+        "  Hom n m  := Matrix (Fin m) (Fin n) R\n"
+        "  id  n    := 1                    -- identity matrix\n"
+        "  comp f g := f * g                -- matrix multiplication\n"
+        "  id_comp  := Matrix.one_mul\n"
+        "  comp_id  := Matrix.mul_one\n"
+        "  assoc    := Matrix.mul_assoc\n"
+    )
 
 
 class SectionCategoriesObjectsMorphisms(Req):
