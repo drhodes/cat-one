@@ -14,3 +14,8 @@
 {"created_at":"2026-06-21T15:32:12.059894+00:00","depends_on":"spec.course.MainBranchDeployment","ref":"spec.course.RootEntrypoint","snapshot_id":"PENDING","type":"dependency"}
 {"created_at":"2026-06-21T15:40:51.032010+00:00","depends_on":"spec.makefile.TargetTest","ref":"spec.makefile.TargetDefault","snapshot_id":"PENDING","type":"dependency"}
 {"created_at":"2026-06-21T15:40:51.197021+00:00","depends_on":"spec.makefile.TargetCheckLinks","ref":"spec.makefile.TargetDefault","snapshot_id":"PENDING","type":"dependency"}
+{"created_at":"2026-06-21T16:21:13.696862+00:00","depends_on":"spec.course.SectionPhilosophicalMotivation","ref":"spec.course.SectionRomanExamples","snapshot_id":"PENDING","type":"dependency"}
+{"created_at":"2026-06-21T16:21:13.831421+00:00","depends_on":"spec.course.SectionRomanExamples","ref":"spec.course.ExerciseGroupInverseUnique","snapshot_id":"PENDING","type":"dependency"}
+{"created_at":"2026-06-21T16:21:13.984931+00:00","depends_on":"spec.course.SectionRomanExamples","ref":"spec.course.ExercisePosetAsCategory","snapshot_id":"PENDING","type":"dependency"}
+{"created_at":"2026-06-21T16:21:14.137897+00:00","depends_on":"spec.course.SectionRomanExamples","ref":"spec.course.ExerciseMonoidAsCategory","snapshot_id":"PENDING","type":"dependency"}
+{"created_at":"2026-06-21T16:21:14.280279+00:00","depends_on":"spec.course.SectionRomanExamples","ref":"spec.course.ExerciseMatrixCategory","snapshot_id":"PENDING","type":"dependency"}

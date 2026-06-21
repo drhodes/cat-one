@@ -18,6 +18,32 @@ class SectionPhilosophicalMotivation(Req):
     - Lecture 2: "Intro to Category Theory 1" by Steven Roman (Video ID: If6VUXZIB-4).
     """
 
+class SectionRomanExamples(Req):
+    """
+    Section 1.5 must present Lean 4 formalization exercises for the examples in Steven Roman's lecture.
+    """
+
+class ExerciseGroupInverseUnique(Req):
+    """
+    Must provide a Lean 4 exercise proving that inverses in a group are unique using a calc block.
+    """
+
+class ExercisePosetAsCategory(Req):
+    """
+    Must provide a Lean 4 exercise showing how a preorder forms a category.
+    """
+
+class ExerciseMonoidAsCategory(Req):
+    """
+    Must provide a Lean 4 exercise defining a monoid as a single-object category.
+    """
+
+class ExerciseMatrixCategory(Req):
+    """
+    Must provide a Lean 4 exercise defining the category of matrices over a comm ring.
+    """
+
+
 class SectionCategoriesObjectsMorphisms(Req):
     """
     Section 2 must define categories, objects, and morphisms.

@@ -127,6 +127,93 @@
 
     <hr>
 
+    <h2>Section 1.5: Steven Roman's Examples Formalized</h2>
+    <p>In his introductory lecture, Steven Roman introduces several classic mathematical structures and explains how category theory abstracts them. Let's look at how we can formalize these examples and proofs in Lean 4.</p>
+
+    <div class="exercise">
+        <h4>Lean 4 Exercise 1.1: Uniqueness of Inverses in a Group</h4>
+        <p>Roman demonstrates that in any group, the inverse of an element is unique. Here is the formal Lean 4 proof matching his algebraic derivation: $\alpha = \alpha \cdot 1 = \alpha \cdot (a \cdot \beta) = (\alpha \cdot a) \cdot \beta = 1 \cdot \beta = \beta$.</p>
+<pre>
+<span class="keyword">import</span> Mathlib.Algebra.Group.Basic
+
+<span class="keyword">theorem</span> group_inverse_unique {G : <span class="type">Type</span>} [<span class="type">Group</span> G] (a α β : G)
+  (h1 : α * a = 1) (h2 : a * β = 1) : α = β := <span class="keyword">by</span>
+  <span class="keyword">calc</span>
+    α = α * 1 := <span class="keyword">by</span> rw [mul_one]
+    _ = α * (a * β) := <span class="keyword">by</span> rw [h2]
+    _ = (α * a) * β := <span class="keyword">by</span> rw [mul_assoc]
+    _ = 1 * β := <span class="keyword">by</span> rw [h1]
+    _ = β := <span class="keyword">by</span> rw [one_mul]
+</pre>
+    </div>
+
+    <div class="exercise">
+        <h4>Lean 4 Exercise 1.2: Partially Ordered Set (Poset) as a Category</h4>
+        <p>Roman explains that a poset $P$ is a category where the objects are elements of $P$, and there is a unique morphism from $a$ to $b$ if and only if $a \le b$. In Mathlib, this is formalized via preorders.</p>
+<pre>
+<span class="keyword">import</span> Mathlib.CategoryTheory.Category.Basic
+<span class="keyword">import</span> Mathlib.Order.Preorder
+
+<span class="keyword">open</span> CategoryTheory
+
+<span class="comment">-- Let P be a preorder. Mathlib defines a category structure on P.</span>
+<span class="keyword">variable</span> {P : <span class="type">Type u</span>} [Preorder P]
+
+<span class="comment">-- Morphism exists if and only if a ≤ b</span>
+<span class="keyword">example</span> (a b : P) (h : a ≤ b) : a ⟶ b :=
+  homOfLE h
+</pre>
+    </div>
+
+    <div class="exercise">
+        <h4>Lean 4 Exercise 1.3: Monoid as a Category</h4>
+        <p>A monoid $M$ is a category with a single object (e.g., the <code>Unit</code> type), where the morphisms are elements of the monoid, and composition is the monoid product.</p>
+<pre>
+<span class="keyword">import</span> Mathlib.CategoryTheory.Category.Basic
+<span class="keyword">import</span> Mathlib.Algebra.Monoid.Basic
+
+<span class="keyword">open</span> CategoryTheory
+
+<span class="comment">-- A representation of a single-object category from a monoid M</span>
+<span class="keyword">def</span> MonoidAsCat (M : <span class="type">Type u</span>) [Monoid M] : <span class="type">Type</span> := Unit
+
+<span class="keyword">instance</span> (M : <span class="type">Type u</span>) [Monoid M] : Category (MonoidAsCat M) <span class="keyword">where</span>
+  Hom _ _ := M
+  id _ := 1
+  comp f g := f * g
+  id_comp := one_mul
+  comp_id := mul_one
+  assoc f g h := mul_assoc f g h
+</pre>
+    </div>
+
+    <div class="exercise">
+        <h4>Lean 4 Exercise 1.4: Category of Matrices</h4>
+        <p>A category where objects are positive integers, and morphisms from $m$ to $n$ are $n \times m$ matrices over a field $F$. Composition is matrix multiplication.</p>
+<pre>
+<span class="keyword">import</span> Mathlib.Data.Matrix.Basic
+<span class="keyword">import</span> Mathlib.CategoryTheory.Category.Basic
+
+<span class="keyword">open</span> CategoryTheory
+<span class="keyword">open</span> Matrix
+
+<span class="keyword">variable</span> (F : <span class="type">Type u</span>) [CommRing F]
+
+<span class="comment">-- Objects are positive integers (Nat)</span>
+<span class="keyword">def</span> MatrixCat : <span class="type">Type</span> := ℕ
+
+<span class="keyword">instance</span> : Category (MatrixCat) <span class="keyword">where</span>
+  Hom m n := Matrix (Fin n) (Fin m) F
+  id n := 1
+  comp {l m n} (A : Matrix (Fin m) (Fin l) F) (B : Matrix (Fin n) (Fin m) F) := B * A
+  id_comp A := mul_one A
+  comp_id A := one_mul A
+  assoc A B C := Matrix.mul_assoc C B A
+</pre>
+    </div>
+
+    <hr>
+
     <h2>Section 2: Categories, Objects, and Morphisms in Lean 4</h2>
     <p>A category consists of a collection of <strong>objects</strong> and a collection of <strong>morphisms</strong> (often called arrows) that connect these objects. The most critical rule of a category is that morphisms must compose. If you have a morphism $f: X \to Y$ and a morphism $g: Y \to Z$, there must exist a composite morphism $X \to Z$.</p>
     
