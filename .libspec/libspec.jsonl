@@ -1,0 +1,14 @@
+{"created_at":"2026-06-21T15:29:20.524939+00:00","depends_on":"spec.course.SectionPhilosophicalMotivation","ref":"spec.course.SectionCategoriesObjectsMorphisms","snapshot_id":"PENDING","type":"dependency"}
+{"created_at":"2026-06-21T15:29:20.669181+00:00","depends_on":"spec.course.SectionCategoriesObjectsMorphisms","ref":"spec.course.SectionCategoryOfTypes","snapshot_id":"PENDING","type":"dependency"}
+{"created_at":"2026-06-21T15:29:20.815588+00:00","depends_on":"spec.course.SectionCategoriesObjectsMorphisms","ref":"spec.course.SectionEpimorphismsMonomorphisms","snapshot_id":"PENDING","type":"dependency"}
+{"created_at":"2026-06-21T15:29:20.970607+00:00","depends_on":"spec.course.SectionCategoriesObjectsMorphisms","ref":"spec.course.SectionUniversalProperties","snapshot_id":"PENDING","type":"dependency"}
+{"created_at":"2026-06-21T15:29:21.115981+00:00","depends_on":"spec.course.SectionCategoriesObjectsMorphisms","ref":"spec.course.SectionFunctors","snapshot_id":"PENDING","type":"dependency"}
+{"created_at":"2026-06-21T15:29:21.270845+00:00","depends_on":"spec.course.SectionFunctors","ref":"spec.course.SectionNaturalTransformations","snapshot_id":"PENDING","type":"dependency"}
+{"created_at":"2026-06-21T15:29:21.409309+00:00","depends_on":"spec.course.SectionNaturalTransformations","ref":"spec.course.SectionYonedaLemma","snapshot_id":"PENDING","type":"dependency"}
+{"created_at":"2026-06-21T15:29:21.550439+00:00","depends_on":"spec.course.SectionFunctors","ref":"spec.course.SectionAppliedCategoryTheory","snapshot_id":"PENDING","type":"dependency"}
+{"created_at":"2026-06-21T15:29:21.696945+00:00","depends_on":"spec.course.SectionAppliedCategoryTheory","ref":"spec.course.SectionFutureVerification","snapshot_id":"PENDING","type":"dependency"}
+{"created_at":"2026-06-21T15:30:51.932554+00:00","depends_on":"spec.link_checker.ParseHTMLEntities","ref":"spec.link_checker.QueryYouTubeOembed","snapshot_id":"PENDING","type":"dependency"}
+{"created_at":"2026-06-21T15:30:52.077671+00:00","depends_on":"spec.link_checker.QueryYouTubeOembed","ref":"spec.link_checker.ReportVerificationStatus","snapshot_id":"PENDING","type":"dependency"}
+{"created_at":"2026-06-21T15:30:52.223633+00:00","depends_on":"spec.link_checker.ParseHTMLEntities","ref":"spec.link_checker.CLIArguments","snapshot_id":"PENDING","type":"dependency"}
+{"created_at":"2026-06-21T15:32:11.917517+00:00","depends_on":"spec.course.GitHubPagesHosting","ref":"spec.course.MainBranchDeployment","snapshot_id":"PENDING","type":"dependency"}
+{"created_at":"2026-06-21T15:32:12.059894+00:00","depends_on":"spec.course.MainBranchDeployment","ref":"spec.course.RootEntrypoint","snapshot_id":"PENDING","type":"dependency"}

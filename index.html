@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Theory for Programmers: A Lean 4 & Mathlib Masterclass</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.8;
+            color: #2c3e50;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 40px;
+            background-color: #f8f9fa;
+        }
+        h1 { font-size: 2.8em; border-bottom: 3px solid #2980b9; padding-bottom: 10px; color: #2c3e50; margin-top: 50px;}
+        h2 { font-size: 2.2em; color: #2980b9; margin-top: 50px; border-bottom: 1px solid #bdc3c7; padding-bottom: 5px;}
+        h3 { font-size: 1.6em; color: #34495e; margin-top: 30px;}
+        p { font-size: 1.15em; margin-bottom: 20px;}
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        .video-wrapper {
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 6px;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            border: 0;
+        }
+        .video-fallback {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #e74c3c;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .video-fallback:hover { text-decoration: underline; }
+        .instructor-tag {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        pre {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 25px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: "Fira Code", Consolas, Monaco, monospace;
+            font-size: 1.05em;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+            line-height: 1.5;
+        }
+        code { font-family: "Fira Code", Consolas, Monaco, monospace; background-color: #e8eaed; padding: 2px 6px; border-radius: 4px; color: #c0392b; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        .keyword { color: #569cd6; font-weight: bold; }
+        .type { color: #4ec9b0; }
+        .comment { color: #6a9955; font-style: italic; }
+        .operator { color: #d4d4d4; }
+        .exercise {
+            background-color: #e8f4f8;
+            border-left: 6px solid #2980b9;
+            padding: 25px;
+            margin: 40px 0;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .exercise h4 { margin-top: 0; color: #2980b9; font-size: 1.4em; }
+        blockquote { font-style: italic; color: #7f8c8d; border-left: 4px solid #bdc3c7; padding-left: 20px; font-size: 1.1em; background: #fff; padding: 15px 20px; border-radius: 0 8px 8px 0;}
+    </style>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] } };
+    </script>
+</head>
+<body>
+
+    <h1>Part I: The Essence of Composition (Expanded Edition)</h1>
+    <p>Welcome to your definitive, formal journey into Category Theory. While modern functional programmers frequently utilize languages like Haskell to build intuition for categorical concepts [cite: 1], we are taking a strictly formal, mathematically unshakeable route. By utilizing <strong>Lean 4</strong> and its mathematics library (<strong>Mathlib</strong>), we strip away the ambiguity of conventional programming languages [cite: 2]. In a proof assistant like Lean 4, there is no room for mathematical hand-waving. If your code compiles, your proof is absolute.</p>
+    
+    <p>This masterclass is designed to be deeply immersive. We will work methodically down the page, introducing abstract concepts through the lenses of the world's leading lecturers, and then immediately proving the foundational theorems of those concepts using Lean 4. Because YouTube embeds can occasionally fail due to creator restrictions, every video includes a direct fallback link.</p>
+
+    <h2>Section 1: The Philosophical Motivation</h2>
+    <p>Before we write our first line of code, we must ground ourselves in the underlying philosophy of the discipline. Category theory—rather than dealing with atomic particulars—deals entirely with structure and how things compose [cite: 1]. We live in a world where object-oriented programming often fails to scale in concurrent environments due to hidden side-effects and data races [cite: 1]. Category theory provides the ultimate toolkit for data hiding and pure abstraction [cite: 3].</p>
+
+    <div class="video-grid">
+        <div class="video-wrapper">
+            <span class="instructor-tag">Bartosz Milewski</span>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/I8LbkfSSR58" allowfullscreen></iframe>
+            </div>
+            <a href="https://www.youtube.com/watch?v=I8LbkfSSR58" target="_blank" class="video-fallback">Watch on YouTube (Fallback Link)</a>
+            <p><strong>1. Motivation and Philosophy:</strong> Milewski introduces the catastrophic failures of modern software architecture and how composition is the only viable solution.</p>
+        </div>
+        <div class="video-wrapper">
+            <span class="instructor-tag">Steven Roman</span>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/If6VUXZIB-4" allowfullscreen></iframe>
+            </div>
+            <a href="https://www.youtube.com/watch?v=If6VUXZIB-4" target="_blank" class="video-fallback">Watch on YouTube (Fallback Link)</a>
+            <p><strong>2. Intro to Category Theory 1:</strong> Roman emphasizes that morphisms are just as important—if not more so—than the objects they morph [cite: 4].</p>
+        </div>
+    </div>
+
+    <hr>
+
+    <h2>Section 2: Categories, Objects, and Morphisms in Lean 4</h2>
+    <p>A category consists of a collection of <strong>objects</strong> and a collection of <strong>morphisms</strong> (often called arrows) that connect these objects. The most critical rule of a category is that morphisms must compose. If you have a morphism $f: X \to Y$ and a morphism $g: Y \to Z$, there must exist a composite morphism $X \to Z$.</p>
+    
+    <p>In Lean 4's Mathlib, a category is defined as a typeclass parameterized by the type of its objects [cite: 2]. However, because Lean 4 is a dependently typed language with a strict universe hierarchy, the objects live in one universe (<code>Type u</code>) and the morphisms live in another universe (<code>Type v</code>). This distinction between `SmallCategory` (where objects and morphisms share a universe) and `LargeCategory` (where they do not) is crucial [cite: 5].</p>
+    
+    <p>Mathlib provides specific, highly optimized notation for these concepts [cite: 5, 6]:</p>
+    <ul>
+        <li><code>X ⟶ Y</code> : The type of morphisms from object $X$ to object $Y$ (typed using <code>\hom</code>).</li>
+        <li><code>𝟙 X</code> : The identity morphism on object $X$ (typed using <code>\b1</code>).</li>
+        <li><code>f ≫ g</code> : The composition of morphism $f$ followed by $g$ (typed using <code>\gg</code>).</li>
+    </ul>
+
+    <div class="video-grid">
+        <div class="video-wrapper">
+            <span class="instructor-tag">Bartosz Milewski</span>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/p54Hd7AmVFU" allowfullscreen></iframe>
+            </div>
+            <a href="https://www.youtube.com/watch?v=p54Hd7AmVFU" target="_blank" class="video-fallback">Watch on YouTube (Fallback Link)</a>
+            <p><strong>3. What is a Category?</strong> The absolute end of the road for data hiding. Objects are shrunk to a point; all that matters is their interface (arrows) [cite: 3].</p>
+        </div>
+        <div class="video-wrapper">
+            <span class="instructor-tag">Martin Codrington</span>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/80bbALpA8k8" allowfullscreen></iframe>
+            </div>
+            <a href="https://www.youtube.com/watch?v=80bbALpA8k8" target="_blank" class="video-fallback">Watch on YouTube (Fallback Link)</a>
+            <p><strong>4. Definition of a Category:</strong> A breakdown of proving that objects and arrows follow the rules of composition and identity [cite: 7].</p>
+        </div>
+    </div>
+
+    <div class="exercise">
+        <h4>Lean 4 Exercise 1: Exploring the Category Axioms</h4>
+        <p>Let's look at how Mathlib formally defines the raw structure of a category. Lean requires us to provide proofs that our composition is associative, and that every object has an identity morphism that acts as a neutral element.</p>
+<pre>
+<span class="keyword">import</span> Mathlib.CategoryTheory.Category.Basic
+<span class="keyword">import</span> Mathlib.CategoryTheory.Types
+
+<span class="keyword">open</span> CategoryTheory
+
+<span class="comment">-- Mathlib defines CategoryStruct roughly like this:
+-- class CategoryStruct (obj : Type u) where
+--   Hom : obj → obj → Type v
+--   id : (X : obj) → Hom X X
+--   comp : {X Y Z : obj} → Hom X Y → Hom Y Z → Hom X Z</span>
+
+<span class="comment">-- And the axioms are layered on top:
+--   id_comp : ∀ {X Y} (f : Hom X Y), comp (id X) f = f
+--   comp_id : ∀ {X Y} (f : Hom X Y), comp f (id Y) = f
+--   assoc : ∀ {W X Y Z} (f : Hom W X) (g : Hom X Y) (h : Hom Y Z), 
+--           comp (comp f g) h = comp f (comp g h)</span>
+
+<span class="comment">-- Let's prove a simple lemma: Composing an identity morphism with another identity 
+-- morphism yields the identity morphism.</span>
+<span class="keyword">theorem</span> id_comp_id_is_id {C : <span class="type">Type u</span>} [<span class="type">Category</span> C] (X : C) : 
+  (𝟙 X) ≫ (𝟙 X) = 𝟙 X := <span class="keyword">by</span>
+  <span class="comment">-- The axiom `Category.id_comp` states that `𝟙 X ≫ f = f`.
+  -- Here, our `f` is just `𝟙 X`.</span>
+  <span class="keyword">exact</span> Category.id_comp (𝟙 X)
+
+<span class="comment">-- Try this one yourself: Prove it using the right-identity axiom instead.</span>
+<span class="keyword">theorem</span> id_comp_id_is_id_alt {C : <span class="type">Type u</span>} [<span class="type">Category</span> C] (X : C) : 
+  (𝟙 X) ≫ (𝟙 X) = 𝟙 X := <span class="keyword">by</span>
+  <span class="keyword">exact</span> Category.comp_id (𝟙 X)
+</pre>
+    </div>
+
+    <hr>
+
+    <h2>Section 3: The Category of Types</h2>
+    <p>In programming, the most common category we work with is the Category of Types, which Mathlib formalizes in <code>Mathlib.CategoryTheory.Types</code> [cite: 6]. In this category, the objects are Lean types (like <code>Nat</code>, <code>Bool</code>, or <code>String</code>), and the morphisms are pure, computable functions between those types (e.g., <code>Nat → Bool</code>) [cite: 8].</p>
+
+    <div class="video-grid">
+        <div class="video-wrapper">
+            <span class="instructor-tag">Richard Southwell</span>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/US4Zr1WKD-8" allowfullscreen></iframe>
+            </div>
+            <a href="https://www.youtube.com/watch?v=US4Zr1WKD-8" target="_blank" class="video-fallback">Watch on YouTube (Fallback Link)</a>
+            <p><strong>5. Category of Sets/Types:</strong> Southwell explains how the Cartesian product of two sets is not just a fundamental idea of mathematics, but an expression of a deeper categorical relationship [cite: 9].</p>
+        </div>
+        <div class="video-wrapper">
+            <span class="instructor-tag">Richard Borcherds</span>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/JOp7mH72Jlg" allowfullscreen></iframe>
+            </div>
+            <a href="https://www.youtube.com/watch?v=JOp7mH72Jlg" target="_blank" class="video-fallback">Watch on YouTube (Fallback Link)</a>
+            <p><strong>6. Isomorphisms:</strong> Exploring how an isomorphism between two objects in the category of Sets implies a bijective function, but how this fails in arbitrary categories [cite: 10].</p>
+        </div>
+    </div>
+
+    <div class="exercise">
+        <h4>Lean 4 Exercise 2: Proving Associativity in Types</h4>
+        <p>Let's verify that ordinary function composition behaves precisely as categorical composition when we are operating in the category of Types. In Lean, we can define the category of Types explicitly by specifying that <code>Hom X Y</code> is just <code>X → Y</code> [cite: 8].</p>
+<pre>
+<span class="keyword">import</span> Mathlib.CategoryTheory.Types
+
+<span class="keyword">open</span> CategoryTheory
+
+<span class="comment">-- In the category of Types, `X ⟶ Y` is definitionally `X → Y`.
+-- And `f ≫ g` is defined as `g ∘ f` (g after f).</span>
+
+<span class="comment">-- Let's prove that function composition is associative.</span>
+<span class="keyword">theorem</span> types_comp_assoc {W X Y Z : <span class="type">Type</span>} (f : W ⟶ X) (g : X ⟶ Y) (h : Y ⟶ Z) : 
+  (f ≫ g) ≫ h = f ≫ (g ≫ h) := <span class="keyword">by</span>
+  <span class="comment">-- Because `f ≫ g` is defined as `fun x => g (f x)`, Lean's definitional 
+  -- equality can see that both sides of this equation are identical.</span>
+  rfl
+
+<span class="comment">-- Proof of identity.</span>
+<span class="keyword">theorem</span> types_id_comp {X Y : <span class="type">Type</span>} (f : X ⟶ Y) : 
+  (𝟙 X) ≫ f = f := <span class="keyword">by</span>
+  <span class="comment">-- `𝟙 X` is `fun x => x`. Thus `f (id x)` is just `f x`.</span>
+  rfl
+</pre>
+    </div>
+
+    <hr>
+
+    <h2>Section 4: Epimorphisms and Monomorphisms</h2>
+    <p>In set theory, we talk about injective (one-to-one) and surjective (onto) functions. In category theory, because we cannot look "inside" the objects to see their elements, we must define these properties entirely by how the morphisms compose with other morphisms. We call these <strong>Monomorphisms</strong> (monos) and <strong>Epimorphisms</strong> (epis).</p>
+
+    <div class="video-grid">
+        <div class="video-wrapper">
+            <span class="instructor-tag">Bartosz Milewski</span>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/O2lZkr-aAqk" allowfullscreen></iframe>
+            </div>
+            <a href="https://www.youtube.com/watch?v=O2lZkr-aAqk" target="_blank" class="video-fallback">Watch on YouTube (Fallback Link)</a>
+            <p><strong>7. Epimorphisms:</strong> Milewski explains how an epimorphism in any category generalizes the concept of a surjective function. If $g_1 \circ f = g_2 \circ f \implies g_1 = g_2$, then $f$ is an epimorphism [cite: 11].</p>
+        </div>
+        <div class="video-wrapper">
+            <span class="instructor-tag">Martin Codrington</span>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/YcyG8v1TcZ8" allowfullscreen></iframe>
+            </div>
+            <a href="https://www.youtube.com/watch?v=YcyG8v1TcZ8" target="_blank" class="video-fallback">Watch on YouTube (Fallback Link)</a>
+            <p><strong>8. Groupoids:</strong> An exploration of a specific type of category—a groupoid—where every single morphism is an isomorphism [cite: 12].</p>
+        </div>
+    </div>
+
+    <div class="exercise">
+        <h4>Lean 4 Exercise 3: Defining Epimorphisms</h4>
+        <p>Mathlib provides the <code>Epi</code> and <code>Mono</code> typeclasses. Let's look at how an Epimorphism is formally stated and prove a simple property about it.</p>
+<pre>
+<span class="keyword">import</span> Mathlib.CategoryTheory.EpiMono
+
+<span class="keyword">open</span> CategoryTheory
+
+<span class="keyword">variable</span> {C : <span class="type">Type u</span>} [<span class="type">Category</span> C] {X Y : C}
+
+<span class="comment">-- Mathlib defines `Epi f` roughly as:
+-- class Epi (f : X ⟶ Y) : Prop where
+--   left_cancellation : ∀ {Z : C} (g h : Y ⟶ Z), f ≫ g = f ≫ h → g = h</span>
+
+<span class="comment">-- If f is an isomorphism, it is automatically an epimorphism. 
+-- Let's prove a basic cancellation property assuming `Epi f`.</span>
+<span class="keyword">theorem</span> cancel_epi (f : X ⟶ Y) [Epi f] {Z : C} (g h : Y ⟶ Z) (H : f ≫ g = f ≫ h) : 
+  g = h := <span class="keyword">by</span>
+  <span class="keyword">exact</span> Epi.left_cancellation g h H
+</pre>
+    </div>
+
+    <hr>
+
+    <h2>Section 5: Universal Properties (Products & Coproducts)</h2>
+    <p>In category theory, we define objects not by their internal data, but by their universal properties—how they relate holistically to the rest of the category. A <strong>Categorical Product</strong> of two objects $A$ and $B$ is an object $A \times B$ equipped with two projections ($p_1, p_2$) such that for any other object $C$ with projections to $A$ and $B$, there is a <em>unique</em> morphism from $C$ to $A \times B$ that makes the diagram commute.</p>
+
+    <div class="video-grid">
+        <div class="video-wrapper">
+            <span class="instructor-tag">Richard Southwell</span>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/oIc0K81yz6E" allowfullscreen></iframe>
+            </div>
+            <a href="https://www.youtube.com/watch?v=oIc0K81yz6E" target="_blank" class="video-fallback">Watch on YouTube (Fallback Link)</a>
+            <p><strong>9. Duality and Universal Properties:</strong> Southwell introduces duality, initial objects (the empty set), and coproducts (discriminated unions) [cite: 13].</p>
+        </div>
+        <div class="video-wrapper">
+            <span class="instructor-tag">Steve Awodey</span>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/2XReBRzOBWU" allowfullscreen></iframe>
+            </div>
+            <a href="https://www.youtube.com/watch?v=2XReBRzOBWU" target="_blank" class="video-fallback">Watch on YouTube (Fallback Link)</a>
+            <p><strong>10. Products:</strong> Awodey draws the universal property diagram for a product, showing how maps $f$ and $g$ factor through the unique map to the product object [cite: 14].</p>
+        </div>
+    </div>
+
+    <p>In Lean 4, products in the category of Types correspond directly to the `Prod α β` type (written as `α × β`), and coproducts correspond to the `Sum α β` type (written as `α ⊕ β`).</p>
+
+    <div class="exercise">
+        <h4>Lean 4 Exercise 4: Constructing the Product Morphism</h4>
+        <p>Let's construct the unique morphism into the product object in the category of Types.</p>
+<pre>
+<span class="keyword">import</span> Mathlib.CategoryTheory.Types
+
+<span class="keyword">open</span> CategoryTheory
+
+<span class="comment">-- Given an object C and morphisms f : C ⟶ A and g : C ⟶ B,
+-- we construct the unique morphism into the product A × B.</span>
+
+<span class="keyword">def</span> type_product_factor {A B C : <span class="type">Type</span>} (f : C ⟶ A) (g : C ⟶ B) : C ⟶ (A × B) :=
+  <span class="keyword">fun</span> c => (f c, g c)
+
+<span class="comment">-- Now let's prove that this factorization commutes with the first projection.</span>
+<span class="keyword">theorem</span> type_product_commutes_fst {A B C : <span class="type">Type</span>} (f : C ⟶ A) (g : C ⟶ B) :
+  (type_product_factor f g) ≫ Prod.fst = f := <span class="keyword">by</span>
+  <span class="comment">-- By definition, `Prod.fst (f c, g c)` is `f c`.</span>
+  rfl
+</pre>
+    </div>
+
+    <hr>
+
+    <h2>Section 6: Functors (Contexts & Containers)</h2>
+    <p>A functor $F: \mathcal{C} \to \mathcal{D}$ maps every object $X$ in $\mathcal{C}$ to an object $F(X)$ in $\mathcal{D}$, and it maps every morphism $f: X \to Y$ to a morphism $F(f): F(X) \to F(Y)$. In functional programming, functors represent computational contexts or containers (like a List or an Option type).</p>
+
+    <div class="video-grid">
+        <div class="video-wrapper">
+            <span class="instructor-tag">Steve Awodey</span>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/ZKmodCApZwk" allowfullscreen></iframe>
+            </div>
+            <a href="https://www.youtube.com/watch?v=ZKmodCApZwk" target="_blank" class="video-fallback">Watch on YouTube (Fallback Link)</a>
+            <p><strong>11. Functors and Slice Categories:</strong> Awodey explains how assignments can act as functors, preserving the associative and unit laws across categories [cite: 15].</p>
+        </div>
+        <div class="video-wrapper">
+            <span class="instructor-tag">CodeLucky</span>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/Xz48SqxHx3w" allowfullscreen></iframe>
+            </div>
+            <a href="https://www.youtube.com/watch?v=Xz48SqxHx3w" target="_blank" class="video-fallback">Watch on YouTube (Fallback Link)</a>
+            <p><strong>12. Preserving Structure:</strong> Discussing how functors map objects to objects and morphisms to morphisms, strictly preserving the architecture of the source category [cite: 16].</p>
+        </div>
+    </div>
+
+    <div class="exercise">
+        <h4>Lean 4 Exercise 5: The Functor Laws</h4>
+        <p>Mathlib defines functors rigidly. They cannot just map data; they must rigorously preserve the structure of the category [cite: 6].</p>
+<pre>
+<span class="keyword">import</span> Mathlib.CategoryTheory.Functor.Basic
+
+<span class="keyword">open</span> CategoryTheory
+<span class="keyword">open</span> CategoryTheory.Functor
+
+<span class="keyword">variable</span> {C D : <span class="type">Type u</span>} [<span class="type">Category</span> C] [<span class="type">Category</span> D] (F : C ⥤ D)
+
+<span class="comment">-- EXERCISE: Prove that mapping a composed morphism is the same as 
+-- composing the mapped morphisms.</span>
+<span class="keyword">theorem</span> functor_preserves_composition {X Y Z : C} (f : X ⟶ Y) (g : Y ⟶ Z) : 
+  F.map (f ≫ g) = (F.map f) ≫ (F.map g) := <span class="keyword">by</span>
+  <span class="comment">-- This is the second fundamental law of Functors. 
+  -- We apply the built-in Mathlib axiom `map_comp`.</span>
+  <span class="keyword">exact</span> F.map_comp f g
+</pre>
+    </div>
+
+    <hr>
+
+    <h2>Section 7: Natural Transformations</h2>
+    <p>If functors are mappings between categories, mappings between functors are called <strong>Natural Transformations</strong>. A natural transformation provides a way to systematically translate one "container" into another (e.g., safely converting a <code>List A</code> to an <code>Option A</code>) without altering the underlying data.</p>
+
+    <div class="video-grid">
+        <div class="video-wrapper">
+            <span class="instructor-tag">Steve Awodey</span>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/8fZmdhLLgs4" allowfullscreen></iframe>
+            </div>
+            <a href="https://www.youtube.com/watch?v=8fZmdhLLgs4" target="_blank" class="video-fallback">Watch on YouTube (Fallback Link)</a>
+            <p><strong>13. Category Theory Foundations:</strong> Awodey discusses presheaves, the completeness of lambda calculus with respect to variable sets, and adjoint functors [cite: 17].</p>
+        </div>
+        <div class="video-wrapper">
+            <span class="instructor-tag">Eugenia Cheng</span>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/ho7oagHeqNc" allowfullscreen></iframe>
+            </div>
+            <a href="https://www.youtube.com/watch?v=ho7oagHeqNc" target="_blank" class="video-fallback">Watch on YouTube (Fallback Link)</a>
+            <p><strong>14. Category Theory in Life:</strong> Cheng provides a highly accessible, conversational explanation of the core philosophy of categorical thinking and natural transformations [cite: 18].</p>
+        </div>
+    </div>
+
+    <div class="exercise">
+        <h4>Lean 4 Exercise 6: The Naturality Square</h4>
+        <p>The defining feature of a natural transformation is the "Naturality Square". In Lean, natural transformations are denoted with <code>F ⟶ G</code> [cite: 6]. Let's verify the naturality condition.</p>
+<pre>
+<span class="keyword">import</span> Mathlib.CategoryTheory.NatTrans
+
+<span class="keyword">open</span> CategoryTheory
+
+<span class="keyword">variable</span> {C D : <span class="type">Type u</span>} [<span class="type">Category</span> C] [<span class="type">Category</span> D]
+<span class="keyword">variable</span> {F G : C ⥤ D} (τ : F ⟶ G)
+
+<span class="comment">-- EXERCISE: Prove the naturality condition for transformation τ.</span>
+<span class="keyword">theorem</span> naturality_condition {X Y : C} (f : X ⟶ Y) : 
+  (F.map f) ≫ (τ.app Y) = (τ.app X) ≫ (G.map f) := <span class="keyword">by</span>
+  <span class="comment">-- Check the fields of the `NatTrans` structure, specifically `.naturality`.</span>
+  <span class="keyword">exact</span> τ.naturality f
+</pre>
+    </div>
+
+    <hr>
+
+    <h2>Section 8: The Yoneda Lemma</h2>
+    <p>The Yoneda Lemma asserts that an object $A$ is entirely and uniquely determined by the functors representing the network of all morphisms pointing into it or out of it. Philosophically, it proves that understanding how a system interacts with all other systems in its environment provides total knowledge of the system itself.</p>
+
+    <div class="video-grid">
+        <div class="video-wrapper">
+            <span class="instructor-tag">Steve Awodey</span>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/BOynNljjbeg" allowfullscreen></iframe>
+            </div>
+            <a href="https://www.youtube.com/watch?v=BOynNljjbeg" target="_blank" class="video-fallback">Watch on YouTube (Fallback Link)</a>
+            <p><strong>15. The Yoneda Lemma:</strong> Awodey provides a rapid, logical proof demonstrating the fundamental correspondence defined by the Yoneda Lemma [cite: 19].</p>
+        </div>
+        <div class="video-wrapper">
+            <span class="instructor-tag">Steve Awodey</span>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/B6vmemDaPLc" allowfullscreen></iframe>
+            </div>
+            <a href="https://www.youtube.com/watch?v=B6vmemDaPLc" target="_blank" class="video-fallback">Watch on YouTube (Fallback Link)</a>
+            <p><strong>16. Representable Functors:</strong> Exploring the mechanics of representable functors, fixing an object $A$, and taking morphisms into it to create a functor to Set [cite: 20].</p>
+        </div>
+    </div>
+
+    <hr>
+
+    <h2>Section 9: Applied Category Theory (ACT)</h2>
+    <p>Category theory isn't just for pure mathematics and software architecture. Led by researchers David I. Spivak and Brendan Fong at MIT, Applied Category Theory (ACT) models physical systems, distributed databases, quantum circuits, and materials science [cite: 21, 22].</p>
+
+    <div class="video-grid">
+        <div class="video-wrapper">
+            <span class="instructor-tag">David Spivak</span>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/UusLtx9fIjs" allowfullscreen></iframe>
+            </div>
+            <a href="https://www.youtube.com/watch?v=UusLtx9fIjs" target="_blank" class="video-fallback">Watch on YouTube (Fallback Link)</a>
+            <p><strong>17. Generative Effects (Part 1):</strong> Spivak introduces ACT by studying orders and adjunctions, showing how local observations fail to capture global phenomena [cite: 23].</p>
+        </div>
+        <div class="video-wrapper">
+            <span class="instructor-tag">Brendan Fong</span>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/2BYl7NgHjvc" allowfullscreen></iframe>
+            </div>
+            <a href="https://www.youtube.com/watch?v=2BYl7NgHjvc" target="_blank" class="video-fallback">Watch on YouTube (Fallback Link)</a>
+            <p><strong>18. Generative Effects (Part 2):</strong> Fong continues the lecture series, cementing the connection between physical observation and abstract categorical adjunctions [cite: 22].</p>
+        </div>
+    </div>
+
+    <hr>
+
+    <h2>Section 10: The Future of Formal Verification</h2>
+    <p>By bringing category theory into Lean 4, we marry the ultimate language of mathematical structure with the ultimate tool for logical verification. The future of software engineering lies in this intersection.</p>
+
+    <div class="video-grid">
+        <div class="video-wrapper">
+            <span class="instructor-tag">David Spivak</span>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/Cf3tsAeGhBg" allowfullscreen></iframe>
+            </div>
+            <a href="https://www.youtube.com/watch?v=Cf3tsAeGhBg" target="_blank" class="video-fallback">Watch on YouTube (Fallback Link)</a>
+            <p><strong>19. Resources and Monoidal Preorders:</strong> Spivak moves on to Chapter 2 of the ACT course, discussing enriched category theory applied to chemistry and economics [cite: 24].</p>
+        </div>
+        <div class="video-wrapper">
+            <span class="instructor-tag">Alex Simpson</span>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/xwNG0R311q4" allowfullscreen></iframe>
+            </div>
+            <a href="https://www.youtube.com/watch?v=xwNG0R311q4" target="_blank" class="video-fallback">Watch on YouTube (Fallback Link)</a>
+            <p><strong>20. Category Theory (Lecture 1):</strong> Simpson provides a rigorous university-level introduction to the formal definitions, example categories, and isomorphisms [cite: 25].</p>
+        </div>
+    </div>
+
+    <p>As you progress through these lectures and Lean 4 exercises, remember that you are not just learning syntax; you are learning how to perceive the structural invariants that govern mathematics, computer science, and reality itself.</p>
+
+</body>
+</html>

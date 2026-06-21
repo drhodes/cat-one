@@ -1,0 +1,13 @@
+[project]
+name = "cat-one"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "beautifulsoup4>=4.15.0",
+    "libspec",
+]
+
+[tool.uv.sources]
+libspec = { path = "../libspec" }
