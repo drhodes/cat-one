@@ -89,7 +89,38 @@
         }
         .exercise h4 { margin-top: 0; color: #2980b9; font-size: 1.4em; }
         blockquote { font-style: italic; color: #7f8c8d; border-left: 4px solid #bdc3c7; padding-left: 20px; font-size: 1.1em; background: #fff; padding: 15px 20px; border-radius: 0 8px 8px 0;}
+
+        /* ── Tabbed exercise UI ───────────────────────────────────────── */
+        .exercise-tabs { margin: 40px 0; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.10); }
+        .tab-bar { display: flex; background: #1a2332; }
+        .tab-btn {
+            flex: 1; padding: 13px 0; border: none; background: transparent;
+            color: #8899aa; font-size: 1em; font-weight: 600; cursor: pointer;
+            letter-spacing: 0.04em; transition: color .2s, border-bottom .2s;
+            border-bottom: 3px solid transparent;
+        }
+        .tab-btn[aria-selected="true"] { color: #58a6ff; border-bottom-color: #58a6ff; }
+        .tab-btn:hover:not([aria-selected="true"]) { color: #cdd9e5; }
+        .tab-btn.solution-btn[aria-selected="true"] { color: #3fb950; border-bottom-color: #3fb950; }
+        .tab-panel { display: none; background: #0d1117; }
+        .tab-panel.active { display: block; }
+        .exercise-header {
+            background: #161b22; padding: 18px 28px 10px;
+            border-bottom: 1px solid #21262d;
+        }
+        .exercise-header h4 { margin: 0; color: #cdd9e5; font-size: 1.2em; }
+        .exercise-header p  { margin: 8px 0 0; color: #8b949e; font-size: 1em; line-height: 1.6; }
+        .tab-panel pre {
+            margin: 0; border-radius: 0; box-shadow: none;
+            background: #0d1117; padding: 24px 28px;
+            font-size: 0.97em; border-top: 1px solid #21262d;
+        }
+        /* highlight.js overrides for dark theme */
+        .hljs { background: #0d1117 !important; }
     </style>
+    <!-- highlight.js: loaded ONCE for all exercise code blocks -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>
         window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] } };
@@ -129,86 +160,214 @@
     <h2>Section 1.5: Steven Roman's Examples Formalized</h2>
     <p>In his introductory lecture, Steven Roman introduces several classic mathematical structures and explains how category theory abstracts them. Let's look at how we can formalize these examples and proofs in Lean 4.</p>
 
-    <div class="exercise">
+    <!-- Exercise 1.1 ─ Group Inverse Uniqueness -->
+    <div class="exercise-tabs" id="ex-group-inverse">
+      <div class="exercise-header">
         <h4>Lean 4 Exercise 1.1: Uniqueness of Inverses in a Group</h4>
-        <p>Roman demonstrates that in any group, the inverse of an element is unique. Here is the formal Lean 4 proof matching his algebraic derivation: $\alpha = \alpha \cdot 1 = \alpha \cdot (a \cdot \beta) = (\alpha \cdot a) \cdot \beta = 1 \cdot \beta = \beta$.</p>
-<pre>
-<span class="keyword">import</span> Mathlib.Algebra.Group.Basic
+        <p>Roman demonstrates that in any group, the inverse of an element is unique.
+           Formally: $\alpha = \alpha \cdot 1 = \alpha \cdot (a \cdot \beta) = (\alpha \cdot a) \cdot \beta = 1 \cdot \beta = \beta$.</p>
+      </div>
+      <div class="tab-bar" role="tablist" aria-label="Exercise 1.1 tabs">
+        <button class="tab-btn"
+                id="tab-group-inverse-exercise"
+                role="tab"
+                aria-selected="true"
+                aria-controls="panel-group-inverse-exercise"
+                onclick="switchTab(this)">Exercise</button>
+        <button class="tab-btn solution-btn"
+                id="tab-group-inverse-solution"
+                role="tab"
+                aria-selected="false"
+                aria-controls="panel-group-inverse-solution"
+                onclick="switchTab(this)">Solution</button>
+      </div>
+      <div class="tab-panel active"
+           id="panel-group-inverse-exercise"
+           role="tabpanel"
+           aria-labelledby="tab-group-inverse-exercise"
+           aria-hidden="false">
+<pre><code class="language-lean">import Mathlib.Algebra.Group.Basic
 
-<span class="keyword">theorem</span> group_inverse_unique {G : <span class="type">Type</span>} [<span class="type">Group</span> G] (a α β : G)
-  (h1 : α * a = 1) (h2 : a * β = 1) : α = β := <span class="keyword">by</span>
-  <span class="keyword">calc</span>
-    α = α * 1 := <span class="keyword">by</span> rw [mul_one]
-    _ = α * (a * β) := <span class="keyword">by</span> rw [h2]
-    _ = (α * a) * β := <span class="keyword">by</span> rw [mul_assoc]
-    _ = 1 * β := <span class="keyword">by</span> rw [h1]
-    _ = β := <span class="keyword">by</span> rw [one_mul]
-</pre>
+theorem group_inverse_unique {G : Type} [Group G] (a α β : G)
+    (h1 : α * a = 1) (h2 : a * β = 1) : α = β := by
+  sorry</code></pre>
+      </div>
+      <div class="tab-panel"
+           id="panel-group-inverse-solution"
+           role="tabpanel"
+           aria-labelledby="tab-group-inverse-solution"
+           aria-hidden="true">
+<pre><code class="language-lean">import Mathlib.Algebra.Group.Basic
+
+theorem group_inverse_unique {G : Type} [Group G] (a α β : G)
+    (h1 : α * a = 1) (h2 : a * β = 1) : α = β := by
+  calc
+    α = α * 1       := by rw [mul_one]
+    _ = α * (a * β) := by rw [h2]
+    _ = (α * a) * β := by rw [mul_assoc]
+    _ = 1 * β       := by rw [h1]
+    _ = β           := by rw [one_mul]</code></pre>
+      </div>
     </div>
 
-    <div class="exercise">
+    <!-- Exercise 1.2 ─ Poset as a Category -->
+    <div class="exercise-tabs" id="ex-poset">
+      <div class="exercise-header">
         <h4>Lean 4 Exercise 1.2: Partially Ordered Set (Poset) as a Category</h4>
-        <p>Roman explains that a poset $P$ is a category where the objects are elements of $P$, and there is a unique morphism from $a$ to $b$ if and only if $a \le b$. In Mathlib, this is formalized via preorders.</p>
-<pre>
-<span class="keyword">import</span> Mathlib.CategoryTheory.Category.Basic
-<span class="keyword">import</span> Mathlib.Order.Preorder
+        <p>Roman explains that a poset $P$ is a category where objects are elements of $P$,
+           and there is a unique morphism $a \to b$ iff $a \le b$.  Build the
+           <code>SmallCategory</code> instance from scratch using <code>PLift</code>.</p>
+      </div>
+      <div class="tab-bar" role="tablist" aria-label="Exercise 1.2 tabs">
+        <button class="tab-btn"
+                id="tab-poset-exercise"
+                role="tab"
+                aria-selected="true"
+                aria-controls="panel-poset-exercise"
+                onclick="switchTab(this)">Exercise</button>
+        <button class="tab-btn solution-btn"
+                id="tab-poset-solution"
+                role="tab"
+                aria-selected="false"
+                aria-controls="panel-poset-solution"
+                onclick="switchTab(this)">Solution</button>
+      </div>
+      <div class="tab-panel active"
+           id="panel-poset-exercise"
+           role="tabpanel"
+           aria-labelledby="tab-poset-exercise"
+           aria-hidden="false">
+<pre><code class="language-lean">import Mathlib
+universe u
+variable {α : Type u} [Preorder α]
 
-<span class="keyword">open</span> CategoryTheory
+-- Provide the SmallCategory instance for any preorder.
+instance posetCategory : CategoryTheory.SmallCategory α where
+  Hom a b  := PLift (a ≤ b)
+  id  a    := sorry
+  comp f g := sorry</code></pre>
+      </div>
+      <div class="tab-panel"
+           id="panel-poset-solution"
+           role="tabpanel"
+           aria-labelledby="tab-poset-solution"
+           aria-hidden="true">
+<pre><code class="language-lean">import Mathlib
+universe u
+variable {α : Type u} [Preorder α]
 
-<span class="comment">-- Let P be a preorder. Mathlib defines a category structure on P.</span>
-<span class="keyword">variable</span> {P : <span class="type">Type u</span>} [Preorder P]
-
-<span class="comment">-- Morphism exists if and only if a ≤ b</span>
-<span class="keyword">example</span> (a b : P) (h : a ≤ b) : a ⟶ b :=
-  homOfLE h
-</pre>
+instance posetCategory : CategoryTheory.SmallCategory α where
+  Hom a b  := PLift (a ≤ b)
+  id  a    := ⟨le_refl a⟩
+  comp f g := ⟨le_trans f.down g.down⟩</code></pre>
+      </div>
     </div>
 
-    <div class="exercise">
-        <h4>Lean 4 Exercise 1.3: Monoid as a Category</h4>
-        <p>A monoid $M$ is a category with a single object (e.g., the <code>Unit</code> type), where the morphisms are elements of the monoid, and composition is the monoid product.</p>
-<pre>
-<span class="keyword">import</span> Mathlib.CategoryTheory.Category.Basic
-<span class="keyword">import</span> Mathlib.Algebra.Monoid.Basic
+    <!-- Exercise 1.3 ─ Monoid as a Category -->
+    <div class="exercise-tabs" id="ex-monoid">
+      <div class="exercise-header">
+        <h4>Lean 4 Exercise 1.3: Monoid as a Single-Object Category</h4>
+        <p>A monoid $M$ is a category with one object (the <code>Unit</code> type),
+           morphisms = elements of $M$, and composition = monoid multiplication.
+           Provide the <code>Category Unit</code> instance.</p>
+      </div>
+      <div class="tab-bar" role="tablist" aria-label="Exercise 1.3 tabs">
+        <button class="tab-btn"
+                id="tab-monoid-exercise"
+                role="tab"
+                aria-selected="true"
+                aria-controls="panel-monoid-exercise"
+                onclick="switchTab(this)">Exercise</button>
+        <button class="tab-btn solution-btn"
+                id="tab-monoid-solution"
+                role="tab"
+                aria-selected="false"
+                aria-controls="panel-monoid-solution"
+                onclick="switchTab(this)">Solution</button>
+      </div>
+      <div class="tab-panel active"
+           id="panel-monoid-exercise"
+           role="tabpanel"
+           aria-labelledby="tab-monoid-exercise"
+           aria-hidden="false">
+<pre><code class="language-lean">import Mathlib
+variable (M : Type*) [Monoid M]
 
-<span class="keyword">open</span> CategoryTheory
-
-<span class="comment">-- A representation of a single-object category from a monoid M</span>
-<span class="keyword">def</span> MonoidAsCat (M : <span class="type">Type u</span>) [Monoid M] : <span class="type">Type</span> := Unit
-
-<span class="keyword">instance</span> (M : <span class="type">Type u</span>) [Monoid M] : Category (MonoidAsCat M) <span class="keyword">where</span>
+-- Define the single-object category whose morphisms are M.
+instance monoidCategory : CategoryTheory.Category Unit where
   Hom _ _ := M
-  id _ := 1
+  id  _   := sorry
+  comp f g := sorry</code></pre>
+      </div>
+      <div class="tab-panel"
+           id="panel-monoid-solution"
+           role="tabpanel"
+           aria-labelledby="tab-monoid-solution"
+           aria-hidden="true">
+<pre><code class="language-lean">import Mathlib
+variable (M : Type*) [Monoid M]
+
+instance monoidCategory : CategoryTheory.Category Unit where
+  Hom _ _  := M
+  id  _    := (1 : M)
   comp f g := f * g
-  id_comp := one_mul
-  comp_id := mul_one
-  assoc f g h := mul_assoc f g h
-</pre>
+  id_comp  := one_mul
+  comp_id  := mul_one
+  assoc    := mul_assoc</code></pre>
+      </div>
     </div>
 
-    <div class="exercise">
+    <!-- Exercise 1.4 ─ Category of Matrices -->
+    <div class="exercise-tabs" id="ex-matrix">
+      <div class="exercise-header">
         <h4>Lean 4 Exercise 1.4: Category of Matrices</h4>
-        <p>A category where objects are positive integers, and morphisms from $m$ to $n$ are $n \times m$ matrices over a field $F$. Composition is matrix multiplication.</p>
-<pre>
-<span class="keyword">import</span> Mathlib.Data.Matrix.Basic
-<span class="keyword">import</span> Mathlib.CategoryTheory.Category.Basic
+        <p>Objects are natural numbers (dimensions); a morphism $n \to m$ is an
+           $m \times n$ matrix over a commutative ring $R$.
+           Composition is matrix multiplication.  Provide the <code>Category ℕ</code> instance.</p>
+      </div>
+      <div class="tab-bar" role="tablist" aria-label="Exercise 1.4 tabs">
+        <button class="tab-btn"
+                id="tab-matrix-exercise"
+                role="tab"
+                aria-selected="true"
+                aria-controls="panel-matrix-exercise"
+                onclick="switchTab(this)">Exercise</button>
+        <button class="tab-btn solution-btn"
+                id="tab-matrix-solution"
+                role="tab"
+                aria-selected="false"
+                aria-controls="panel-matrix-solution"
+                onclick="switchTab(this)">Solution</button>
+      </div>
+      <div class="tab-panel active"
+           id="panel-matrix-exercise"
+           role="tabpanel"
+           aria-labelledby="tab-matrix-exercise"
+           aria-hidden="false">
+<pre><code class="language-lean">import Mathlib
+variable (R : Type*) [CommRing R]
 
-<span class="keyword">open</span> CategoryTheory
-<span class="keyword">open</span> Matrix
+instance matrixCategory : CategoryTheory.Category ℕ where
+  Hom n m  := Matrix (Fin m) (Fin n) R
+  id  n    := sorry
+  comp f g := sorry</code></pre>
+      </div>
+      <div class="tab-panel"
+           id="panel-matrix-solution"
+           role="tabpanel"
+           aria-labelledby="tab-matrix-solution"
+           aria-hidden="true">
+<pre><code class="language-lean">import Mathlib
+variable (R : Type*) [CommRing R]
 
-<span class="keyword">variable</span> (F : <span class="type">Type u</span>) [CommRing F]
-
-<span class="comment">-- Objects are positive integers (Nat)</span>
-<span class="keyword">def</span> MatrixCat : <span class="type">Type</span> := ℕ
-
-<span class="keyword">instance</span> : Category (MatrixCat) <span class="keyword">where</span>
-  Hom m n := Matrix (Fin n) (Fin m) F
-  id n := 1
-  comp {l m n} (A : Matrix (Fin m) (Fin l) F) (B : Matrix (Fin n) (Fin m) F) := B * A
-  id_comp A := mul_one A
-  comp_id A := one_mul A
-  assoc A B C := Matrix.mul_assoc C B A
-</pre>
+instance matrixCategory : CategoryTheory.Category ℕ where
+  Hom n m  := Matrix (Fin m) (Fin n) R
+  id  n    := 1          -- identity matrix
+  comp f g := f * g      -- matrix multiplication
+  id_comp  := Matrix.one_mul
+  comp_id  := Matrix.mul_one
+  assoc    := Matrix.mul_assoc</code></pre>
+      </div>
     </div>
 
     <hr>
@@ -585,6 +744,49 @@
     </div>
 
     <p>As you progress through these lectures and Lean 4 exercises, remember that you are not just learning syntax; you are learning how to perceive the structural invariants that govern mathematics, computer science, and reality itself.</p>
+
+    <script>
+      // Shared vanilla-JS tab switcher — loaded once, works for all exercises.
+      function switchTab(btn) {
+        var bar = btn.closest('.tab-bar');
+        var tabs = bar.parentElement;
+
+        // Deactivate all tabs in this exercise.
+        bar.querySelectorAll('.tab-btn').forEach(function(b) {
+          b.setAttribute('aria-selected', 'false');
+        });
+        tabs.querySelectorAll('.tab-panel').forEach(function(p) {
+          p.classList.remove('active');
+          p.setAttribute('aria-hidden', 'true');
+        });
+
+        // Activate the clicked tab.
+        btn.setAttribute('aria-selected', 'true');
+        var panelId = btn.getAttribute('aria-controls');
+        var panel = document.getElementById(panelId);
+        panel.classList.add('active');
+        panel.setAttribute('aria-hidden', 'false');
+      }
+
+      // Keyboard navigation: arrow keys move between tabs.
+      document.querySelectorAll('.tab-btn').forEach(function(btn) {
+        btn.addEventListener('keydown', function(e) {
+          var bar = btn.closest('.tab-bar');
+          var btns = Array.from(bar.querySelectorAll('.tab-btn'));
+          var idx  = btns.indexOf(btn);
+          if (e.key === 'ArrowRight') { btns[(idx + 1) % btns.length].focus(); }
+          if (e.key === 'ArrowLeft')  { btns[(idx - 1 + btns.length) % btns.length].focus(); }
+          if (e.key === 'Enter' || e.key === ' ') { switchTab(btn); }
+        });
+      });
+
+      // Run highlight.js on all code blocks once the page is ready.
+      document.addEventListener('DOMContentLoaded', function() {
+        hljs.highlightAll();
+      });
+      // Fallback if DOMContentLoaded already fired.
+      if (document.readyState !== 'loading') { hljs.highlightAll(); }
+    </script>
 
 </body>
 </html>
