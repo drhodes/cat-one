@@ -117,6 +117,19 @@
         }
         /* highlight.js overrides for dark theme */
         .hljs { background: #0d1117 !important; }
+
+        /* ── Lean Live button ─────────────────────────────────────────── */
+        .lean-live-btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            margin: 12px 28px 16px;
+            padding: 7px 16px;
+            background: #21262d; color: #58a6ff;
+            border: 1px solid #30363d; border-radius: 6px;
+            font-size: 0.88em; font-weight: 600; text-decoration: none;
+            transition: background .15s, border-color .15s, color .15s;
+        }
+        .lean-live-btn:hover { background: #1f6feb33; border-color: #58a6ff; color: #79c0ff; }
+        .lean-live-btn:focus-visible { outline: 2px solid #58a6ff; outline-offset: 2px; }
     </style>
     <!-- highlight.js: loaded ONCE for all exercise code blocks -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
@@ -186,12 +199,17 @@
            role="tabpanel"
            aria-labelledby="tab-group-inverse-exercise"
            aria-hidden="false">
-<pre><code class="language-lean">import Mathlib.Algebra.Group.Basic
+<pre><code class="language-lean" id="code-group-inverse">import Mathlib.Algebra.Group.Basic
 
 theorem group_inverse_unique {G : Type} [Group G] (a α β : G)
     (h1 : α * a = 1) (h2 : a * β = 1) : α = β := by
   sorry</code></pre>
-      </div>
+        <a class="lean-live-btn"
+           id="lean-live-group-inverse"
+           href="https://live.lean-lang.org/"
+           target="_blank"
+           rel="noopener noreferrer"
+           aria-label="Try Exercise 1.1 in Lean Live">Try in Lean Live ↗</a>
       <div class="tab-panel"
            id="panel-group-inverse-solution"
            role="tabpanel"
@@ -237,7 +255,7 @@ theorem group_inverse_unique {G : Type} [Group G] (a α β : G)
            role="tabpanel"
            aria-labelledby="tab-poset-exercise"
            aria-hidden="false">
-<pre><code class="language-lean">import Mathlib
+<pre><code class="language-lean" id="code-poset">import Mathlib
 universe u
 variable {α : Type u} [Preorder α]
 
@@ -246,7 +264,12 @@ instance posetCategory : CategoryTheory.SmallCategory α where
   Hom a b  := PLift (a ≤ b)
   id  a    := sorry
   comp f g := sorry</code></pre>
-      </div>
+        <a class="lean-live-btn"
+           id="lean-live-poset"
+           href="https://live.lean-lang.org/"
+           target="_blank"
+           rel="noopener noreferrer"
+           aria-label="Try Exercise 1.2 in Lean Live">Try in Lean Live ↗</a>
       <div class="tab-panel"
            id="panel-poset-solution"
            role="tabpanel"
@@ -290,7 +313,7 @@ instance posetCategory : CategoryTheory.SmallCategory α where
            role="tabpanel"
            aria-labelledby="tab-monoid-exercise"
            aria-hidden="false">
-<pre><code class="language-lean">import Mathlib
+<pre><code class="language-lean" id="code-monoid">import Mathlib
 variable (M : Type*) [Monoid M]
 
 -- Define the single-object category whose morphisms are M.
@@ -298,7 +321,12 @@ instance monoidCategory : CategoryTheory.Category Unit where
   Hom _ _ := M
   id  _   := sorry
   comp f g := sorry</code></pre>
-      </div>
+        <a class="lean-live-btn"
+           id="lean-live-monoid"
+           href="https://live.lean-lang.org/"
+           target="_blank"
+           rel="noopener noreferrer"
+           aria-label="Try Exercise 1.3 in Lean Live">Try in Lean Live ↗</a>
       <div class="tab-panel"
            id="panel-monoid-solution"
            role="tabpanel"
@@ -344,14 +372,19 @@ instance monoidCategory : CategoryTheory.Category Unit where
            role="tabpanel"
            aria-labelledby="tab-matrix-exercise"
            aria-hidden="false">
-<pre><code class="language-lean">import Mathlib
+<pre><code class="language-lean" id="code-matrix">import Mathlib
 variable (R : Type*) [CommRing R]
 
 instance matrixCategory : CategoryTheory.Category ℕ where
   Hom n m  := Matrix (Fin m) (Fin n) R
   id  n    := sorry
   comp f g := sorry</code></pre>
-      </div>
+        <a class="lean-live-btn"
+           id="lean-live-matrix"
+           href="https://live.lean-lang.org/"
+           target="_blank"
+           rel="noopener noreferrer"
+           aria-label="Try Exercise 1.4 in Lean Live">Try in Lean Live ↗</a>
       <div class="tab-panel"
            id="panel-matrix-solution"
            role="tabpanel"
@@ -779,6 +812,26 @@ instance matrixCategory : CategoryTheory.Category ℕ where
           if (e.key === 'Enter' || e.key === ' ') { switchTab(btn); }
         });
       });
+
+      // Build Lean Live URLs from the sorry-stub code blocks.
+      // Runs at DOMContentLoaded so highlight.js has not yet mutated the text.
+      var LEAN_LIVE = 'https://live.lean-lang.org/#code=';
+      var leanLivePairs = [
+        ['code-group-inverse', 'lean-live-group-inverse'],
+        ['code-poset',         'lean-live-poset'],
+        ['code-monoid',        'lean-live-monoid'],
+        ['code-matrix',        'lean-live-matrix'],
+      ];
+      function buildLeanLiveUrls() {
+        leanLivePairs.forEach(function(pair) {
+          var codeEl = document.getElementById(pair[0]);
+          var btnEl  = document.getElementById(pair[1]);
+          if (!codeEl || !btnEl) return;
+          btnEl.href = LEAN_LIVE + encodeURIComponent(codeEl.textContent);
+        });
+      }
+      document.addEventListener('DOMContentLoaded', buildLeanLiveUrls);
+      if (document.readyState !== 'loading') { buildLeanLiveUrls(); }
 
       // Run highlight.js on all code blocks once the page is ready.
       document.addEventListener('DOMContentLoaded', function() {

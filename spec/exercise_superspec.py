@@ -141,6 +141,35 @@ class ExerciseMetadata(Requirement, _Refactor):
 
 
 # ---------------------------------------------------------------------------
+# Live Lean button requirement
+# ---------------------------------------------------------------------------
+
+class LiveLeanButton(Requirement, _Robustness):
+    """
+    Every Exercise tab must include a "Try in Lean Live" button that opens
+    the exercise's sorry-stub code in the Lean 4 web playground at
+    ``https://live.lean-lang.org``.
+
+    Encoding rules:
+    - The button targets the Exercise tab's ``sorry_code`` only (never the
+      solution).  Readers should be able to experiment with the stub without
+      seeing the answer.
+    - The code is URL-encoded and appended as the ``#code=`` hash fragment::
+
+          https://live.lean-lang.org/#code=<encodeURIComponent(sorry_code)>
+
+    - The link must open in a new browser tab/window (``target="_blank"``).
+    - The button carries ``rel="noopener noreferrer"`` for security.
+    - Button label: ``Try in Lean Live ↗`` (the ↗ glyph signals external link).
+    - The button must be keyboard-focusable and have a descriptive
+      ``aria-label`` that includes the exercise title, e.g.
+      ``aria-label="Try Exercise 1.1 in Lean Live"``.
+    - If JavaScript is disabled the button must still function as a plain
+      ``<a>`` anchor whose ``href`` is pre-computed at page-load time.
+    """
+
+
+# ---------------------------------------------------------------------------
 # The superclass that exercise specs inherit
 # ---------------------------------------------------------------------------
 
@@ -151,6 +180,7 @@ class TabbedExercise(
     TabAccessibility,
     CodeHighlighting,
     ExerciseMetadata,
+    LiveLeanButton,
     Feature,
     _Robustness,
     _Refactor,
@@ -167,6 +197,8 @@ class TabbedExercise(
     - Keyboard-accessible, ARIA-labelled tab UI.
     - Syntax highlighting via a single shared library instance.
     - Class-level metadata attributes for tooling integration.
+    - "Try in Lean Live ↗" button on the Exercise tab linking to
+      ``https://live.lean-lang.org/#code=<encodeURIComponent(sorry_code)>``.
     - Graceful degradation if JS or MathJax fails.
 
     Example subclass (kept out of the registry)::

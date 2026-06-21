@@ -23,3 +23,7 @@
 {"created_at":"2026-06-21T16:32:25.211671+00:00","depends_on":"spec.exercise_superspec.TabbedExercise","ref":"spec.course.ExercisePosetAsCategory","snapshot_id":"PENDING","type":"dependency"}
 {"created_at":"2026-06-21T16:32:25.382094+00:00","depends_on":"spec.exercise_superspec.TabbedExercise","ref":"spec.course.ExerciseMonoidAsCategory","snapshot_id":"PENDING","type":"dependency"}
 {"created_at":"2026-06-21T16:32:25.527205+00:00","depends_on":"spec.exercise_superspec.TabbedExercise","ref":"spec.course.ExerciseMatrixCategory","snapshot_id":"PENDING","type":"dependency"}
+{"created_at":"2026-06-21T16:39:18.057443+00:00","depends_on":"spec.exercise_superspec.LiveLeanButton","ref":"spec.course.ExerciseGroupInverseUnique","snapshot_id":"PENDING","type":"dependency"}
+{"created_at":"2026-06-21T16:39:18.236680+00:00","depends_on":"spec.exercise_superspec.LiveLeanButton","ref":"spec.course.ExercisePosetAsCategory","snapshot_id":"PENDING","type":"dependency"}
+{"created_at":"2026-06-21T16:39:18.495462+00:00","depends_on":"spec.exercise_superspec.LiveLeanButton","ref":"spec.course.ExerciseMonoidAsCategory","snapshot_id":"PENDING","type":"dependency"}
+{"created_at":"2026-06-21T16:39:18.701700+00:00","depends_on":"spec.exercise_superspec.LiveLeanButton","ref":"spec.course.ExerciseMatrixCategory","snapshot_id":"PENDING","type":"dependency"}
